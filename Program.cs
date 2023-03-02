@@ -30,8 +30,8 @@ namespace Test
 
             while (true)
             {
-                try
-                {
+                //try
+                //{
                     string str = Console.ReadLine();
                     string[] x = str.Split(' ');
                     if (dir.Count == 1)
@@ -50,22 +50,22 @@ namespace Test
                             dir.Add(x[2], newList);
                             Console.WriteLine($"Створено лиcт {x[2]} ");
                         }
-                        else Console.WriteLine("Виникла помилка, лист не створено");
-                        //else if(x[1].ToLower() == "string")
-                        //{
-                        //    List<string> newList = new List<string>();
-                        //    dir.Add(x[2], newList);
-                        //}
-                        //else if (x[1].ToLower() == "double")
-                        //{
-                        //    List<double> newList = new List<double>();
-                        //    dir.Add(x[2], newList);
-                        //}
-                        //else if (x[1].ToLower() == "bool")
-                        //{
-                        //    List<bool> newList = new List<bool>();
-                        //    dir.Add(x[2], newList);
-                        //}
+                        
+                        else if (x[1].ToLower() == "string")
+                        {
+                            List<string> newList = new List<string>();
+                            dir.Add(x[2], newList);
+                        }
+                        else if (x[1].ToLower() == "double")
+                        {
+                            List<double> newList = new List<double>();
+                            dir.Add(x[2], newList);
+                        }
+                        else if (x[1].ToLower() == "bool")
+                        {
+                            List<bool> newList = new List<bool>();
+                            dir.Add(x[2], newList);
+                        }else Console.WriteLine("Виникла помилка, лист не створено");
                     }
                     else if (x[0].ToLower() == "dellist")
                     {
@@ -99,16 +99,31 @@ namespace Test
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
-                            try
-                            {
-                                list2.Add(Convert.ToInt32(x[1]));
+                            Console.WriteLine(Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]));
+                            //try
+                            //{
+                                if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0])== TypeCode.Int32)
+                                {
+                                    list2.Add(Convert.ToInt32(x[1]));
                                 Console.WriteLine($"Додано значення {x[1]} до лиcта {selectedList}");
-
-                            }
-                            catch (Exception)
-                            {
-                                Console.WriteLine("Введено не вiрний формат");
-                            }
+                                }
+                                else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Double)
+                                {
+                                    list2.Add(Convert.ToDouble(x[1]));
+                                }
+                                else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.String)
+                                {
+                                    list2.Add(Convert.ToString(x[1]));
+                                }
+                                else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Boolean)
+                                {
+                                    list2.Add(Convert.ToBoolean(x[1]));
+                                }
+                            //}
+                            //catch (Exception)
+                            //{
+                            //    Console.WriteLine("Введено не вiрний формат");
+                            //}
                         }
                     }
                     else if (x[0].ToLower() == "removeat")
@@ -180,12 +195,12 @@ namespace Test
                     Console.WriteLine();
 
 
-                }
-                catch (Exception)
-                {
+                //}
+                //catch (Exception)
+                //{
 
-                    Console.WriteLine("Виникла помилка, спробуй ще раз");
-                }
+                //    Console.WriteLine("Виникла помилка, спробуй ще раз");
+                //}
             }
                 
         }
