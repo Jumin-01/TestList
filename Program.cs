@@ -5,11 +5,12 @@ namespace Test
 {
     internal class Program
     {
-        
+
+
         static void Main(string[] args)
         {
-            Dictionary<string, dynamic> dir = new Dictionary<string, dynamic>(); 
-            string selectedList = null;
+            Dictionary<string, dynamic> dir = new Dictionary<string, dynamic>(); //створюємо словар, в якому будемо зберігати листи за їх ім'ям
+            string selectedList = null; //зберігаємо ім'я вибраного листа
             StringBuilder help = new StringBuilder();
             help.AppendLine("Ось список доступних команд:");
             help.AppendLine("Створити новий лист - AddList тип_даних назва");
@@ -33,7 +34,7 @@ namespace Test
                 try
                 {
                     string str = Console.ReadLine();
-                    string[] x = str.Split(' ');
+                    string[] x = str.Split(' '); //розбиваємо строку на масив, щоб працювати з даними команди
                     if (dir.Count == 1)
                     {
                         selectedList = Convert.ToString(dir.Keys.First());
@@ -42,7 +43,7 @@ namespace Test
                     {
                         Console.WriteLine(help);
                     }
-                    else if (x[0].ToLower() == "addlist")
+                    else if (x[0].ToLower() == "addlist") //додає лист потрібного типу даних
                     {
                         if (x[1].ToLower() == "int")
                         {
@@ -50,7 +51,7 @@ namespace Test
                             dir.Add(x[2], newList);
                             Console.WriteLine($"Створено лиcт {x[2]} ");
                         }
-                        
+
                         else if (x[1].ToLower() == "string")
                         {
                             List<string> newList = new List<string>();
@@ -65,9 +66,10 @@ namespace Test
                         {
                             List<bool> newList = new List<bool>();
                             dir.Add(x[2], newList);
-                        }else Console.WriteLine("Виникла помилка, лист не створено");
+                        }
+                        else Console.WriteLine("Виникла помилка, лист не створено");
                     }
-                    else if (x[0].ToLower() == "dellist")
+                    else if (x[0].ToLower() == "dellist") //видаляє лист
                     {
                         if (dir.TryGetValue(x[1], out dynamic list))
                         {
@@ -78,7 +80,7 @@ namespace Test
 
 
                     }
-                    else if (x[0].ToLower() == "sellist")
+                    else if (x[0].ToLower() == "sellist")  //обрати лист з яким взаємодіяти
                     {
                         if (dir.ContainsKey(x[1]))
                         {
@@ -88,45 +90,48 @@ namespace Test
                         else Console.WriteLine($"Такого листа не iснує");
 
                     }
-                    else if (x[0].ToLower() == "printlist")
+                    else if (x[0].ToLower() == "printlist") //виводить на екран всі створені листи
                     {
                         foreach (var item in dir)
                         {
                             Console.WriteLine($"Назва: {item.Key}; Тип даних: {item.Value}");
                         }
                     }
-                    else if (x[0].ToLower() == "add")
+                    else if (x[0].ToLower() == "add") //додає елемент в кінець обраного листа
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
-                            Console.WriteLine(Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]));
+
                             try
                             {
-                                if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0])== TypeCode.Int32)
+                                if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Int32)
                                 {
                                     list2.Add(Convert.ToInt32(x[1]));
-                                Console.WriteLine($"Додано значення {x[1]} до лиcта {selectedList}");
+                                    Console.WriteLine($"Додано значення {x[1]} до лиcта {selectedList}");
                                 }
                                 else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Double)
                                 {
                                     list2.Add(Convert.ToDouble(x[1]));
+                                    Console.WriteLine($"Додано значення {x[1]} до лиcта {selectedList}");
                                 }
                                 else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.String)
                                 {
                                     list2.Add(Convert.ToString(x[1]));
+                                    Console.WriteLine($"Додано значення {x[1]} до лиcта {selectedList}");
                                 }
                                 else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Boolean)
                                 {
                                     list2.Add(Convert.ToBoolean(x[1]));
+                                    Console.WriteLine($"Додано значення {x[1]} до лиcта {selectedList}");
                                 }
                             }
                             catch (Exception)
                             {
-                                 Console.WriteLine("Введено не вiрний формат");
+                                Console.WriteLine("Введено не вiрний формат");
                             }
-                }
+                        }
                     }
-                    else if (x[0].ToLower() == "removeat")
+                    else if (x[0].ToLower() == "removeat") // видаляємо елемент за індексом
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
@@ -141,7 +146,7 @@ namespace Test
                             }
                         }
                     }
-                    else if (x[0].ToLower() == "remove")
+                    else if (x[0].ToLower() == "remove") //видаляємо останній елемент
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
@@ -149,7 +154,7 @@ namespace Test
                             Console.WriteLine("Видалено останне значення");
                         }
                     }
-                    else if (x[0].ToLower() == "print")
+                    else if (x[0].ToLower() == "print") //виводимо на екран лист
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
@@ -160,14 +165,34 @@ namespace Test
                             }
                         }
                     }
-                    else if (x[0].ToLower() == "insert")
+                    else if (x[0].ToLower() == "insert") // додаємо елемент до обраного листа за індексом
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
                             try
                             {
-                                list2.Insert(Convert.ToInt32(x[2]), Convert.ToInt32(x[1]));
-                                Console.WriteLine($"Значення {x[1]} додано за iндексом {x[2]}");
+                                if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Int32)
+                                {
+                                    list2.Insert(Convert.ToInt32(x[2]), Convert.ToInt32(x[1]));
+                                    Console.WriteLine($"Значення {x[1]} додано за iндексом {x[2]} до лиcта {selectedList}");
+                                }
+                                else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Double)
+                                {
+                                    list2.Insert(Convert.ToDouble(x[2]), Convert.ToInt32(x[1]));
+                                    Console.WriteLine($"Значення {x[1]} додано за iндексом {x[2]} до лиcта {selectedList}");
+                                }
+                                else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.String)
+                                {
+                                    list2.Insert(Convert.ToString(x[2]), Convert.ToInt32(x[1]));
+                                    Console.WriteLine($"Значення {x[1]} додано за iндексом {x[2]} до лиcта {selectedList}");
+                                }
+                                else if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]) == TypeCode.Boolean)
+                                {
+                                    list2.Insert(Convert.ToBoolean(x[2]), Convert.ToInt32(x[1]));
+                                    Console.WriteLine($"Значення {x[1]} додано за iндексом {x[2]} до лиcта {selectedList}");
+                                }
+
+
                             }
                             catch (Exception)
                             {
@@ -176,7 +201,7 @@ namespace Test
                             }
                         }
                     }
-                    else if (x[0].ToLower() == "clear")
+                    else if (x[0].ToLower() == "clear") //очищаемо обраний лист
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
@@ -184,7 +209,7 @@ namespace Test
                             Console.WriteLine($"Лист {selectedList} очищено");
                         }
                     }
-                    else if (x[0].ToLower() == "length")
+                    else if (x[0].ToLower() == "length") //повертає довжину листа
                     {
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
@@ -202,7 +227,7 @@ namespace Test
                     Console.WriteLine("Виникла помилка, спробуй ще раз");
                 }
             }
-                
+
         }
     }
 }
