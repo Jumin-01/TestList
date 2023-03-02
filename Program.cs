@@ -30,8 +30,8 @@ namespace Test
 
             while (true)
             {
-                //try
-                //{
+                try
+                {
                     string str = Console.ReadLine();
                     string[] x = str.Split(' ');
                     if (dir.Count == 1)
@@ -100,8 +100,8 @@ namespace Test
                         if (dir.TryGetValue(selectedList, out dynamic list2) && list2 != null)
                         {
                             Console.WriteLine(Type.GetTypeCode(list2.GetType().GetGenericArguments()[0]));
-                            //try
-                            //{
+                            try
+                            {
                                 if (Type.GetTypeCode(list2.GetType().GetGenericArguments()[0])== TypeCode.Int32)
                                 {
                                     list2.Add(Convert.ToInt32(x[1]));
@@ -119,12 +119,12 @@ namespace Test
                                 {
                                     list2.Add(Convert.ToBoolean(x[1]));
                                 }
-                            //}
-                            //catch (Exception)
-                            //{
-                            //    Console.WriteLine("Введено не вiрний формат");
-                            //}
-                        }
+                            }
+                            catch (Exception)
+                            {
+                                 Console.WriteLine("Введено не вiрний формат");
+                            }
+                }
                     }
                     else if (x[0].ToLower() == "removeat")
                     {
@@ -195,12 +195,12 @@ namespace Test
                     Console.WriteLine();
 
 
-                //}
-                //catch (Exception)
-                //{
+                }
+                catch (Exception)
+                {
 
-                //    Console.WriteLine("Виникла помилка, спробуй ще раз");
-                //}
+                    Console.WriteLine("Виникла помилка, спробуй ще раз");
+                }
             }
                 
         }
